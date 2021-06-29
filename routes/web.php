@@ -11,9 +11,29 @@
 |
 */
 
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\SemesterController;
+
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('dashboard');
+
+
+/**
+ * Program
+ */
+Route::resource('program', ProgramController::class);
+
+/**
+ * Courses
+ */
+Route::resource('course', CourseController::class);
+
+/**
+ * Semester
+ */
+Route::resource('semester', SemesterController::class);
 
 Route::group(['prefix' => 'email'], function(){
     Route::get('inbox', function () { return view('pages.email.inbox'); });
