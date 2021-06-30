@@ -19,7 +19,12 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) {
-            $courses = Course::select();
+            $courses = Course::leftJoin('semesters', 'semesters.id', '=', 'courses.semester_id')
+            ->leftJoin('programs', 'programs.id', '=', 'courses.program_id')
+            ->select('courses.*', 'courses.name as course_name', 'semesters.name as semester_name', 'programs.abbreviation as program_name', 'courses.description as description');
+            if($request->semester_id) {
+                $courses->where('semester_id', $request->semester_id);
+            }
             return $this->getDatatableOf($courses);
         }
         return view('course.index');
@@ -27,15 +32,16 @@ class CourseController extends Controller
 
     private function getDatatableOf($courses) {
         return DataTables::of($courses)
+        // ->editColumn('description', function($course){
+        //     return Str::limit(strip_tags($course->description), 50);
+        // })
         ->addColumn('actions', function ($course) {
             $actions['edit'] = route('course.edit', $course->id);
             $actions['delete'] = route('course.destroy', $course->id);
             return $actions;
-    })
+        })
         -> make(true);
     }
-
-    
 
     /**
      * Show the form for creating a new resource.
@@ -44,7 +50,9 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('course.create');
+        $programs = Program::select('id', 'name', 'abbreviation')->get();
+        $semesters = Semester::select('id', 'name')->get();
+        return view('course.create', ['programs'=>$programs, 'semesters'=>$semesters]);
     }
 
     /**
@@ -78,8 +86,14 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
+        $programs = Program::select('id', 'name', 'abbreviation')->get();
+        $semesters = Semester::select('id', 'name')->get();
         $course = Course::find($id);
-        return view('course.create')->with('course', $course);
+        return view('course.create', [
+            'course' => $course,
+            'programs' => $programs,
+            'semesters' => $semesters
+        ])->with('course', $course);
     }
 
     /**

@@ -4,7 +4,7 @@
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Vivakshaa</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Course</li>
+        <li class="breadcrumb-item active" aria-current="page">Question</li>
     </ol>
 </nav>
 
@@ -12,24 +12,24 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title float-left">Courses</h2>
+        <h2 class="card-title float-left">Question</h2>
         <div class="header-btn-grp">
-            <a href="{{ route('course.create')}}">
+            <a href="{{ route('question.create')}}">
                 <button type="button" class="btn btn-primary mb-1 mb-md-0 float-right">
-                    Add Course
+                    Add Question
                 </button>
             </a>
         </div>
         <div class="table-responsive">
-          <table id="courseDatatable" class="table">
+          <table id="questionDatatable" class="table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Course</th>
-                <th>Code</th>
+                <th>Title</th>
+                <th>Year</th>
                 <th>Program</th>
                 <th>Semester</th>
-                <th>Description</th>
+                <th>Course</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -40,28 +40,28 @@
   </div>
 </div>
 @endsection
+
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
-  <script src="{{ asset('assets/js/data-table.js') }}"></script>
+<script src="{{ asset('assets/js/data-table.js') }}"></script>
   <script>
   $(document).ready( function() {
-    $('#courseDatatable').DataTable( {
-      processing : true,
-      serverSide : true,
-      ajax : "{{ route('course.index') }}",
-      columns : [
-            {data: 'id', name: 'id'},
-            {data: 'course_name', name: 'name'},
-            {data: 'code', name: 'code'},
-            {data: 'program_name', name: 'programs.abbreviation'},
-            {data: 'semester_name', name: 'semesters.name'},
-            {data: 'description', name: 'description'},
-            // {data: 'action', name: 'action', orderable: false, searchable: false}
-            {data: 'actions', 'render': function (data, type, row) {
+    $('#questionDatatable').DataTable( {
+      processing  : true,
+      serverSide  : true,
+      ajax        : "{{ route('question.index') }}",
+      columns     : [
+        {data: 'id', name: 'id'},
+        {data: 'title', name: 'title'},
+        {data: 'year', name: 'year'},
+        {data: 'program_abbr', name: 'program.abbreviation'},
+        {data: 'semester_name', name: 'semester.name'},
+        {data: 'course_name', name: 'course.name'}, 
+        {data: 'actions', 'render': function (data, type, row) {
                         let options = '<div style="display: flex">';
 
                         options += '<a href="' + data['edit'] + '" title="Edit course?"><button class="btn btn-outline-info btn-xs mr-2">Edit</button></a> ';
@@ -75,7 +75,7 @@
                         options += '</div>';
                         return options;
                     }}
-        ]
+      ]
     });
   });
   </script>

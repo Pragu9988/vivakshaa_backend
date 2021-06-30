@@ -64,10 +64,10 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="program">Program<span>*</span></label>
-                                <select class="form-control js-example-basic-single w-100" id="programInput" name="program_id" required >
+                                <select class="form-control js-example-basic-single w-100" id="program" name="program_id" required >
                                     <option selected disabled>Select a Program</option>
-                                    @foreach(App\Course::find(1)->programs as $program)
-                                    <option value="{{$program->id}}">{{$program->name}}</option>
+                                    @foreach($programs as $program)
+                                    <option value="{{ $program->id }}">{{$program->name}} <strong>({{$program->abbreviation}})</strong></option>
                                     @endforeach
                                 </select>
                             </div>
@@ -75,9 +75,9 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="semester">Semester<span>*</span></label>
-                                <select class="form-control" id="semester" name="semester" required >
+                                <select class="form-control" id="semester" name="semester_id" required >
                                     <option selected disabled>Select a Semester</option>
-                                    @foreach(App\Semester::all() as $semester)
+                                    @foreach($semesters as $semester)
                                     <option value="{{$semester->id}}">{{$semester->name}}</option>
                                     @endforeach
                                 </select>
