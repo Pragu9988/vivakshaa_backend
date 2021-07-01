@@ -12,7 +12,7 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title float-left">Question</h2>
+        <h4 class="float-left">Questions</h4>
         <div class="header-btn-grp">
             <a href="{{ route('question.create')}}">
                 <button type="button" class="btn btn-primary mb-1 mb-md-0 float-right">

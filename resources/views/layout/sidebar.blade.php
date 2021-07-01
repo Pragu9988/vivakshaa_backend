@@ -58,6 +58,12 @@
                 <span class="link-title">Sliders</span>
                 </a>
             </li>
+            <li class="nav-item {{ active_class(['blog']) }}">
+                <a href="{{ url('/blog') }}" class="nav-link">
+                <i class="link-icon" data-feather="toggle-right"></i>
+                <span class="link-title">Blogs</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

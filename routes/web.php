@@ -16,31 +16,31 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\QuestionController;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () { return view('dashboard'); })->name('dashboard');
+    /**
+     * Program
+     */
+    Route::resource('program', ProgramController::class);
 
-/**
- * Program
- */
-Route::resource('program', ProgramController::class);
+    /**
+     * Courses
+     */
+    Route::resource('course', CourseController::class);
 
-/**
- * Courses
- */
-Route::resource('course', CourseController::class);
+    /**
+     * Semester
+     */
+    Route::resource('semester', SemesterController::class);
 
-/**
- * Semester
- */
-Route::resource('semester', SemesterController::class);
+    /**
+     * Questions
+     */
+    Route::resource('question', QuestionController::class);
+    Route::post('/question/fetch', [QuestionController::class, 'fetch'])->name('question.fetch');
+});
 
-/**
- * Questions
- */
-Route::resource('question', QuestionController::class);
-Route::post('/question/fetch', [QuestionController::class, 'fetch'])->name('question.fetch');
 
 Route::group(['prefix' => 'email'], function(){
     Route::get('inbox', function () { return view('pages.email.inbox'); });
