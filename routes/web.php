@@ -16,9 +16,12 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\QuestionController;
 
+Route::get('/', function () {
+    return view('home.index');
+});
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () { return view('dashboard'); })->name('dashboard');
+    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
     /**
      * Program
      */

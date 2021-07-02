@@ -37052,7 +37052,11 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window.Vue = require('vue');
+// Vue.component('front-page', require('./components/ExampleApp.vue').default);
+// const app = new Vue({
+//     el: '#app',
+// });
 
 /***/ }),
 
@@ -37119,8 +37123,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/nobleui/Projects/ui-laravel/template/light/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/nobleui/Projects/ui-laravel/template/light/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/pragyan/Desktop/Laravel-Project/vivakshaa_backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/pragyan/Desktop/Laravel-Project/vivakshaa_backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

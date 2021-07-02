@@ -447,3 +447,36 @@
     }
   }
 }
+
+
+
+.header {
+  &__main-nav {
+  }
+  &__logo-box {
+    height: 40px;
+    @include display-flex;
+    @include justify-content(space-between);
+    @include align-items(center);
+    padding: 0 25px;
+    z-index: 999;
+    width: $sidebar-width-lg;
+    -webkit-transition: width .1s ease;
+    transition: width .1s ease;
+
+    &--brand {
+      opacity: 1;
+      visibility: visible;
+      -webkit-transition: opacity .5s ease;
+      transition: opacity .5s ease;
+      font-weight: 900;
+      font-size: 25px;
+      letter-spacing: -1px;
+      color: #031a61;
+      span {
+        color: theme-color(primary);
+        font-weight: 300;
+      }
+    }
+  }
+}
