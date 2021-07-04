@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Program;
 use Illuminate\Database\Seeder;
 
 class ProgramsSeeder extends Seeder

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Question;
+use App\Course;
 use Illuminate\Database\Seeder;
 
-class QuestionsSeeder extends Seeder
+class CoursesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class QuestionsSeeder extends Seeder
      */
     public function run()
     {
-        Question::factory()->times(120)->create();
+        Course::factory()->times(50)->create();
     }
 }

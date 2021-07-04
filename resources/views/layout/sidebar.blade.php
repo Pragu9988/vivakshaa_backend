@@ -52,10 +52,10 @@
                 <span class="link-title">Users</span>
                 </a>
             </li>
-            <li class="nav-item {{ active_class(['slider']) }}">
-                <a href="{{ url('/slider') }}" class="nav-link">
-                <i class="link-icon" data-feather="toggle-right"></i>
-                <span class="link-title">Sliders</span>
+            <li class="nav-item {{ active_class(['feedback']) }}">
+                <a href="{{ url('/feedback') }}" class="nav-link">
+                <i class="link-icon" data-feather="edit-3"></i>
+                <span class="link-title">Feedback</span>
                 </a>
             </li>
             <li class="nav-item {{ active_class(['blog']) }}">

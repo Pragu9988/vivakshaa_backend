@@ -215,7 +215,6 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input type="radio" class="form-check-input" name="optionsRadios2" id="optionsRadios2" value="option2" checked="">
-                Selected
               </label>
             </div>
             <div class="form-check">

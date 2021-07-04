@@ -11,7 +11,19 @@ class Question extends Model
 
     protected $table = 'questions';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'year',
+        'description',
+        'type',
+        'thumbnail',
+        'course_id',
+        'program_id',
+        'semester_id',
+        'question_file',
+        'exam',
+        'is_active'
+    ];
 
     public function course() {
         return $this->belongsTo('Course::class');

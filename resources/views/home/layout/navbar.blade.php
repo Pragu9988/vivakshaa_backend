@@ -9,7 +9,7 @@
             <div class="row header__main-nav p-3">
                 <div class="col-12 col-md-2">
                     <div class="header__logo-box">
-                        <a href="#" class="header__logo-box--brand">
+                        <a href="{{url('/')}}" class="header__logo-box--brand">
                         <i class="link-icon" data-feather="book-open"></i>
                         Vivak<span>Shaa</span>
                         </a>
@@ -17,11 +17,11 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <form action="">
-                        <div class="p-1 bg-light rounded rounded-pill shadow-sm">
+                        <div class="bg-light shadow-sm">
                             <div class="input-group">
                                 <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
-                                <div class="input-group-append">
-                                    <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                                <div class="input-group-append bg-primary ml-0">
+                                    <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="text-light" data-feather="search"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
     <div class="container-fluid navbar-light bg-light">
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./question.html">Questions</a>
+                <a class="nav-link active" aria-current="page" href="{{url('/home/question')}}">Questions</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Blog</a>

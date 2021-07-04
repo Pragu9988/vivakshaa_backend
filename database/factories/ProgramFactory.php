@@ -23,9 +23,9 @@ class ProgramFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'abbreviation' => $this->faker->abbreviation,
+            'abbreviation' => $this->faker->randomElement(array('BCIS', 'BBA', 'BPH', 'BHCM')),
             'faculty' => $this->faker->randomElement(array('Science', 'Management')),
-            'description' => $this->faker->description
+            'description' => $this->faker->sentence
         ];
     }
 }
