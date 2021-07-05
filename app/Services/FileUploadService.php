@@ -19,9 +19,9 @@ class FileUploadService
             return $file;
         }
         $now = Carbon::now();
-        $path = "uploads/" . ($model_name ?: "user") . "/" . $now->year . "/" . $now->month . '/';
+        $path = "uploads/" . ($model_name ?: "user") . "/" . $now->year . "/" . $now->month;
 
-        return Storage::disk('public')->put('', $file, 'public');
+        return Storage::disk('public')->put($path, $file, 'public');
     }
 
     private function removeFileIfExists($model, $type)

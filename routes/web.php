@@ -25,8 +25,10 @@ Route::get('/home/question', function () {
 });
 
 Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
-
-Route::get('download/{file}', [QuestionSearchController::class, 'downloadFile'])->name('download');
+Route::get('/question/download/{file}', function($file) {
+    $path = public_path('app/public/'.$file);
+    return response()->download($path);
+})->name('question.download');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
@@ -34,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
      * Program
      */
     Route::resource('program', ProgramController::class);
+
     /**
      * Courses
      */
@@ -146,6 +149,6 @@ Route::get('/clear-cache', function() {
 });
 
 // 404 for undefined routes
-// Route::any('/{page?}',function(){
-//     return View::make('pages.error.404');
-// })->where('page','.*');
+Route::any('/{page?}',function(){
+    return View::make('pages.error.404');
+})->where('page','.*');
