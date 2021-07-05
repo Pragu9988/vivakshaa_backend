@@ -26,14 +26,8 @@ class QuestionSearchController extends Controller
         return view ('home.question', ['questions' => $questions, 'programs' => $programs, 'semesters' => $semesters, 'courses' => $courses]);
     }
 
-    public function downloadFile(Request $request, $file) {
-        $path = storage_path('public/' . $file);
-        if (!File::exists($path)) {
-            abort(404);
-        }
-
-        return response()->download($path);
-        // return view('/');
+    public function downloadFile($file) {
+        return response()->download(storage_path('app/public/'.$file));
     }
 
     /**

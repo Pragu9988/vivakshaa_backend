@@ -35,102 +35,50 @@
                         <h3 class="mb-4">Filters</h3>
                         <h6 class="card-title mt-4">Faculty</h6>
                         <div class="form-group border border-light p-2">
+                            @foreach(config('options.faculty') as $faculty)
                             <div class="form-check">
                                 <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input">
-                                Management
+                                {{ $faculty }}
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Science
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
 
                         <h6 class="card-title mt-4">Program</h6>
                         <div class="form-group border border-light p-2">
+                            @foreach($programs as $program)
                             <div class="form-check">
                                 <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input">
-                                BBA
-                                </label>
+                                {{ $program->name }}
+                            </label>
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                BCIS
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                BHCM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                BPH
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
 
                         <h6 class="card-title mt-4">Semester</h6>
                         <div class="form-group border border-light p-2">
+                            @foreach($semesters as $semester)
                             <div class="form-check">
                                 <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input">
-                                Semester I
+                                {{ $semester->name }}
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Semester II
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Semester III
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Semester IV
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
 
                         <h6 class="card-title mt-4">Courses</h6>
                         <div class="form-group border border-light p-2">
+                            @foreach($courses as $course)
                             <div class="form-check">
                                 <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input">
-                                Digital Economy
+                                {{ $course->name }}
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Java
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Business Statistics
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Semester IV
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -138,47 +86,62 @@
             <div class="col-12 col-lg-8 col-xl-8 stretched-card">
                 <div class="d-flex justify-content-between align-items-start flex-wrap">
                     <div>
-                      <h4 class="mb-3 mb-md-0">Search Results</h4>
+                        <h4 class="mb-3 mb-md-0">Search Results</h4>
                     </div>
                     <div class="d-flex align-items-start flex-wrap text-nowrap">
-                      <div class="form-group mr-2">
-                        <select class="form-control form-control-sm mb-3">
-                          <option selected>Year All</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                      <div class="form-group  mr-2">
-                        <select class="form-control form-control-sm mb-3">
-                          <option selected>Semester Type</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                      <div class="form-group  mr-2">
-                        <select class="form-control form-control-sm mb-3">
-                          <option selected>Exam Type</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                      <button type="button" class="btn btn-success btn-icon-text btn-sm">
-                        <i class="btn-icon-prepend" data-feather="filter"></i>
-                        Filter
-                      </button>
+                        <div class="form-group mr-2">
+                            <select name="year" class="form-control @error('year') is-invalid @enderror mb-3">
+                                <option selected hidden disabled>Year All</option>
+                                @foreach(config('options.question.year') as $year)
+                                <option value="{{$year}}" {{(isset($question) && $year == $question->year) || (old('year') == $year)?"selected":""}}>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                            @error('year')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-group  mr-2">
+                            <select name="type" class="form-control @error('type') is-invalid @enderror mb-3">
+                                <option selected disabled hidden>Semester Type</option>
+                                @foreach(config('options.question.type') as $type)
+                                <option value="{{$type}}" {{(isset($question) && $type == $question->type) || (old('type') == $type)?"selected":""}}>{{ $type }}</option>
+                                @endforeach
+                            </select>
+                            @error('type')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-group  mr-2">
+                            <select name="exam" class="form-control @error('exam') is-invalid @enderror mb-3">
+                                <option selected disabled hidden>Exam Type</option>
+                                @foreach(config('options.question.exam') as $exam)
+                                <option value="{{$exam}}" {{(isset($question) && $exam == $question->exam) || (old('exam') == $exam)?"selected":""}}>{{ $exam }}</option>
+                                @endforeach
+                            </select>
+                            @error('exam')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <button type="button" class="btn btn-success btn-icon-text btn-sm">
+                            <i class="btn-icon-prepend" data-feather="filter"></i>
+                            Filter
+                        </button>
                     </div>
-                  </div>
+                </div>
                 @foreach($questions as $question)
-                  <div class="card mb-4">
+                <div class="card mb-4">
                     <div class="card-body">
                         <h6 class="card-title">{{$question->title}}</h6>
                         <div class="d-flex justify-content-between mb-4">
                             <div class="info-text">
                                 <p class="text-body mb-2">Year</p>
-                                <p class="text-muted tx-12">{{$question->question_file}}</p>
+                                <p class="text-muted tx-12">{{$question->year}}</p>
                             </div>
                             <div class="info-text">
                                 <p class="text-body mb-2">Semester Type</p>
@@ -201,12 +164,9 @@
                             <i class="btn-icon-prepend" data-feather="eye"></i>
                             View
                         </button>
-                        <a href="{{route('question.download', $question->question_file)}}">
-                            <button type="button" class="btn btn-primary btn-sm btn-icon-text mb-2 mb-md-0">
+                        <a href="{{ route('download', $question->question_file) }}" class="btn btn-primary btn-sm btn-icon-text mb-2 mb-md-0">
                                 <i class="btn-icon-prepend" data-feather="download-cloud"></i>
-                            Download
-                            </button>
-                        </a>
+                            Download</a>
                     </div>
                 </div>
                 @endforeach
