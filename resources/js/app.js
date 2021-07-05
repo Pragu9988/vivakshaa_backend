@@ -1,9 +1,10 @@
+
 require('./bootstrap');
 
-// window.Vue = require('vue');
+window.Vue = require('vue');
 
-// Vue.component('front-page', require('./components/ExampleApp.vue').default);
+Vue.component('show-question', require('./components/ShowQuestion.vue').default);
 
-// const app = new Vue({
-//     el: '#app',
-// });
+const app = new Vue({
+    el: '#app'
+});

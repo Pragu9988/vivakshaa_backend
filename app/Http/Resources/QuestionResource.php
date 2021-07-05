@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class QuestionResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'year' => $this->year,
+            'sem_type' => $this->type,
+            'exam_type' => $this->exam,
+            'semester_id' => $this->semester_id,
+            'course_id' => $this->course_id,
+            'program_id' => $this->program_id
+        ];
+    }
+}

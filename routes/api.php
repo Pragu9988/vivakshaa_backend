@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\SemesterController;
+use App\Http\Controllers\Api\ProgramController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +21,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('questions', [QuestionController::class, 'index']);
+Route::get('courses', [CourseController::class, 'index']);
+Route::get('semesters', [SemesterController::class, 'index']);
+Route::get('programs', [ProgramController::class, 'index']);
