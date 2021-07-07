@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Semester;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class SemesterController extends Controller
 {
@@ -17,14 +18,16 @@ class SemesterController extends Controller
     {
         if($request->ajax()) {
             $semesters = Semester::select();
-            return $this->getDatatableOf($semesters);
+            return $this->getDatatableOf($semesters, Auth::user());
         }
         return view('semester.index');
     }
 
-    private function getDatatableOf($semesters) {
+    private function getDatatableOf($semesters, $user) {
         return DataTables::of($semesters)
-        ->addColumn('actions', function ($semester) {
+        ->addColumn('actions', function ($semester) use ($user) {
+            $actions['authorizedToEdit'] = $user->can('update', [Semester::class, $semester]);
+            $actions['authorizedToDelete'] = $user->can('delete', [Semester::class, $semester]);
             $actions['edit'] = route('semester.edit', $semester->id);
             $actions['delete'] = route('semester.destroy', $semester->id);
             return $actions;
@@ -39,6 +42,7 @@ class SemesterController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Semester::class);
         return view('semester.create');
     }
 
@@ -50,6 +54,7 @@ class SemesterController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Semester::class);
         Semester::create($request->all());
         return redirect('/semester');
     }
@@ -57,10 +62,10 @@ class SemesterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Semester $semester
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Semester $semester)
     {
         //
     }
@@ -68,12 +73,12 @@ class SemesterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Semester $semester
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Semester $semester)
     {
-        $semester = Semester::find($id);
+        $this->authorize('update', $semester);
         return view('semester.create')->with('semester', $semester);
     }
 
@@ -81,12 +86,12 @@ class SemesterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Semester $semester
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Semester $semester)
     {
-        $semester = Semester::find($id);
+        $this->authorize('update', $semester);
         $semester->update($request->all());
         return redirect('/semester');
     }
@@ -94,11 +99,12 @@ class SemesterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Semester $semester
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
+        $this->authorize('delete', $semester);
         $semester = Semester::find($id);
         $program->delete();
         return back();

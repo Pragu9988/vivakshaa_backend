@@ -27,12 +27,13 @@ class QuestionFactory extends Factory
             'description' => $this->faker->text(50),
             'type' => $this->faker->randomElement(array('Spring', 'Fall')),
             'thumbnail' => $this->faker->imageUrl($width = 1600, $height = 900),
-            'course_id' => rand(1, 50),
+            'course_id' => rand(1, 10),
             'program_id' => rand(1,5),
             'semester_id' => rand(1,8),
             'question_file' => $this->faker->imageUrl($width = 1600, $height = 900),
             'exam' => $this->faker->randomElement(array('Terminal', 'Sent-Up', 'Board')),
-            'is_active' => rand(1,0)
+            'is_active' => rand(1,0),
+            'user_id' => rand(1,2),
         ];
     }
 }

@@ -20,9 +20,6 @@ class QuestionResource extends JsonResource
             'year' => $this->year,
             'sem_type' => $this->type,
             'exam_type' => $this->exam,
-            'semester_id' => $this->semester_id,
-            'course_id' => $this->course_id,
-            'program_id' => $this->program_id
         ];
     }
 }

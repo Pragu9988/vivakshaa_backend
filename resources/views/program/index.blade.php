@@ -14,11 +14,13 @@
       <div class="card-body">
         <h4 class="float-left">Programs</h4>
         <div class="header-btn-grp">
+          @can('create', App\Program::class)
             <a href="{{ route('program.create')}}">
                 <button type="button" class="btn btn-primary mb-1 mb-md-0 float-right">
                     Add Program
                 </button>
             </a>
+          @endcan
         </div>
         <div class="table-responsive">
           <table id="programDatatable" class="table">
@@ -62,15 +64,18 @@
             // {data: 'action', name: 'action', orderable: false, searchable: false}
             {data: 'actions', 'render': function (data, type, row) {
                         let options = '<div style="display: flex">';
-
-                        options += '<a href="' + data['edit'] + '" title="Edit program?"><button class="btn btn-outline-info btn-xs mr-2">Edit</button></a> ';
-
-                        options += 
-                        '<form action="' + row['actions']['delete'] + '" method="POST">' +
-                          '<input type="hidden" name="_method" value="DELETE">' + 
-                          '<input type="hidden" name="_token" value="{{ csrf_token() }}">' + 
-                          '<input type="submit" value="Delete" class="btn btn-xs btn-outline-danger">' + 
-                        '</form>';
+                          if (data['authorizedToEdit']) {
+                            options += '<a href="' + data['edit'] + '" title="Edit course?"><button class="btn btn-outline-info btn-xs mr-2">Edit</button></a> ';
+                          }
+                          
+                          if (data['authorizedToDelete']) {
+                          options += 
+                          '<form action="' + row['actions']['delete'] + '" method="POST">' +
+                            '<input type="hidden" name="_method" value="DELETE">' + 
+                            '<input type="hidden" name="_token" value="{{ csrf_token() }}">' + 
+                            '<input type="submit" value="Delete" class="btn btn-xs btn-outline-danger">' + 
+                          '</form>';
+                          }
                         options += '</div>';
                         return options;
                     }}

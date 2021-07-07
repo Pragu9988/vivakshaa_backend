@@ -16,6 +16,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionSearchController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('home.index');
@@ -24,9 +25,9 @@ Route::get('/', function () {
 //     return view('home.question');
 // });
 
-Route::view('/home', 'home');
-
 Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
+
+// Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
 Route::get('/question/download/{file}', function($file) {
     $path = public_path('app/public/'.$file);
     return response()->download($path);
@@ -34,6 +35,11 @@ Route::get('/question/download/{file}', function($file) {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+
+    /**
+     * User
+     */
+    Route::resource('user', UserController::class);
     /**
      * Program
      */

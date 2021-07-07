@@ -19,7 +19,7 @@ class QuestionSearchController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('id', 'desc')->paginate(10)->all();
+        $questions = Question::orderBy('id', 'desc')->paginate(10);
         $programs = Program::select('id', 'name')->get();
         $semesters = Semester::select('id', 'name')->get();
         $courses = Course::select('id', 'name')->get();

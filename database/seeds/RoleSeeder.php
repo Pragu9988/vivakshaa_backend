@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Question;
+use App\Role;
 use Illuminate\Database\Seeder;
 
-class QuestionsSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,8 @@ class QuestionsSeeder extends Seeder
      */
     public function run()
     {
-        Question::factory()->times(20)->create();
+        Role::create(['role' => 'admin']);
+        Role::create(['role' => 'teacher']);
+        Role::create(['role' => 'student']);
     }
 }

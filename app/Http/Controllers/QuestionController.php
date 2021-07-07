@@ -8,9 +8,11 @@ use App\Question;
 use App\Course;
 use App\Program;
 use App\Semester;
+use App\User;
 use App\Services\FileUploadService;
 use App\Services\PPService;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class QuestionController extends Controller
 {
@@ -26,20 +28,29 @@ class QuestionController extends Controller
             $questions = Question::leftJoin('programs', 'programs.id', '=', 'questions.program_id')
             ->leftJoin('semesters', 'semesters.id', '=', 'questions.semester_id')
             ->leftJoin('courses', 'courses.id', '=', 'questions.course_id')
+            ->leftJoin('users', 'users.id', '=', 'questions.user_id')
             ->select('questions.*', 
+            'questions.id as id',
             'questions.title as title', 
             'programs.abbreviation as program_abbr', 
             'semesters.name as semester_name', 
-            'courses.name as course_name');
-            return $this->getDatatableOf($questions);
+            'courses.name as course_name',
+            'users.name as user_name',
+        );
+            return $this->getDatatableOf($questions, Auth::user());
         }
         
         return view('question.index');
     }
 
-    private function getDatatableOf($questions) {
+    private function getDatatableOf($questions, $user) {
         return DataTables::of($questions)
-        ->addColumn('actions', function ($question) {
+        ->addColumn('created_by', function ($question) {
+            return $question->user_name;
+        })
+        ->addColumn('actions', function ($question)  use ($user) {
+            $actions['authorizedToEdit'] = $user->can('update', [Question::class, $question]);
+            $actions['authorizedToDelete'] = $user->can('delete', [Question::class, $question]);
             $actions['edit'] = route('question.edit', $question->id);
             $actions['delete'] = route('question.destroy', $question->id);
             return $actions;
@@ -54,6 +65,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Question::class);
         $programs = Program::select('id', 'name')->get();
         $semesters = Semester::select('id', 'name')->get();
         $courses = Course::select('id', 'name')->get();
@@ -74,9 +86,10 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         $inputs = $request->input();
+        $inputs['user_id'] = $request->user()->id;
         $inputs['is_active'] = isset($request->is_active)?1:0;
         $inputs['thumbnail'] = $request->thumbnail
         ? (new PPService())->uploadImage($request->thumbnail, 'thumbnail', $this->model_name) 
@@ -85,7 +98,7 @@ class QuestionController extends Controller
         ? (new FileUploadService())->uploadFile($request->question_file, 'question_file', $this->model_name)
         : null;
         Question::create($inputs);
-        return redirect('/question');
+        return redirect('/question')->with(['message' => 'Question created successfully!', 'alert-type' => 'success']);
     }
 
     /**
@@ -102,15 +115,15 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  Question $question
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $question)
     {
+        $this->authorize('update', $question);
         $programs = Program::select('id', 'name')->get();
         $semesters = Semester::select('id', 'name')->get();
         $courses = Course::select('id', 'name')->get();
-        $question = Question::find($id);
         return view ('question.create', [
             'programs' => $programs,
             'semesters' => $semesters,
@@ -125,8 +138,9 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Question $question)
     {
+        $this->authorize('update', $question);
         $inputs = $request->input();
         $inputs['is_active'] = isset($request->is_active)?1:0;
         $inputs['thumbnail'] = $request->thumbnail
@@ -135,19 +149,19 @@ class QuestionController extends Controller
         $inputs['question_file'] = $request->question_file
         ? (new FileUploadService())->uploadFile($request->question_file, 'question_file', $this->model_name)
         : null;
-        $question = Question::find($id);
         $question->update($inputs);
-        return redirect('/question');
+        return redirect('/question')->with(['message' => 'Question updated successfully!', 'alert-type' => 'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  Question $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return back()->with(['message' => 'Question deleted successfully!', 'alert-type' => 'success']);
     }
 }

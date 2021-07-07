@@ -31,6 +31,7 @@
                 @csrf
                 @if(isset($question))
                     <input name="_method" value="put" hidden>
+                    <input name="user_id" value={{$user->id}} hidden>
                 @endif
                     <div class="row">
                         <div class="col-md-6 grid-margin stretch-card">
@@ -38,9 +39,14 @@
                                 <div class="card-body">
                                     <h6 class="card-title">Thumbnail</h6>
                                     <input type="file" id="thumbnail"
-                                            class="border dropifyFile"
+                                            class="border dropifyFile @error('thumbnail') is-invalid @enderror"
                                             name="thumbnail"
                                             data-default-file="{{isset($question)?$question->thumbnail:old('thumbnail')}}"/>
+                                            @error('thumbnail')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
                                 </div>
                             </div>
                         </div>
@@ -49,22 +55,32 @@
                                 <div class="card-body">
                                     <h6 class="card-title">Question File</h6>
                                     <input type="file" id="question_file"
-                                            class="border dropifyFile"
+                                            class="border dropifyFile @error('question_file') is-invalid @enderror"
                                             name="question_file"
                                             data-default-file="{{isset($question)?$question->question_file:old('question_file')}}"/>
+                                            @error('question_file')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="questionTitle">Question Title<span>*</span></label>
-                        <input type="text" class="form-control" value="{{ isset($question) ? $question->title : old('title') }}" placeholder="Enter Course Name" id="questionTitle" name="title" required >
+                        <label for="title">Question Title<span>*</span></label>
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" value="{{ isset($question) ? $question->title : old('title') }}" placeholder="Enter Course Name" id="title" name="title" required >
+                        @error('title')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="year">Year<span>*</span></label>
-                                <select name="year" id="year" class="form-control">
+                                <select name="year" id="year" class="form-control @error('year') is-invalid @enderror">
                                     <option selected disable>Select Exam Year</option>
                                     <option value="2030">2030</option>
                                     <option value="2029">2029</option>
@@ -96,27 +112,42 @@
                                     <option value="2003">2003</option>
                                     <option value="2002">2002</option>
                                 </select>
+                                @error('year')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label" for="type">Semester Type</label>
-                                <select name="type" id="type" class="form-control">
+                                <select name="type" id="type" class="form-control @error('type') is-invalid @enderror">
                                     <option selected disable>Select Semester Type</option>
                                     <option value="spring">Spring</option>
                                     <option value="fall">Fall</option>
                                 </select>
+                                @error('type')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                             <label class="control-label" for="exam">Examination Type</label>
-                                <select name="exam" id="exam" class="form-control">
+                                <select name="exam" id="exam" class="form-control @error('exam') is-invalid @enderror">
                                     <option selected disable>Select Examination Type</option>
                                     <option value="terminal">Terminal Examination</option>
                                     <option value="sent_up">Send Up Examination</option>
                                     <option value="board">Board Examination</option>
                                 </select>
+                                @error('exam')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -125,38 +156,58 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label" for="program">Program<span>*</span></label>
-                                <select class="form-control dynamic" id="program_id" name="program_id" data-dependent = "course_id">
+                                <select class="form-control dynamic @error('program_id') is-invalid @enderror" id="program_id" name="program_id" data-dependent = "course_id">
                                     <option selected disable>Select a Program</option>
                                     @foreach($programs as $program)
                                     <option value="{{ $program->id }}">{{ $program->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('program_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label" for="semester">Semester<span>*</span></label>
-                                <select name="semester_id" id="semester_id" class="form-control dynamic" data-dependent = "course_id">
+                                <select name="semester_id" id="semester_id" class="form-control dynamic  @error('semester_id') is-invalid @enderror" data-dependent = "course_id">
                                     <option selected disable>Select a Semester</option>
                                     @foreach($semesters as $semester)
                                     <option value="{{ $semester->id }}">{{ $semester->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('semester_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>  
                         </div><!-- Col -->
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label" for="course">Course<span>*</span></label>
-                                <select name="course_id" id="course_id" class="form-control">
+                                <select name="course_id" id="course_id" class="form-control @error('course_id') is-invalid @enderror">
                                     <option selected disable>Select a Course</option>
                                 </select>
+                                @error('course_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>  
                         </div><!-- Col -->
                         {{ csrf_field() }}
                     </div><!-- Row -->
                     <div class="form-group">
                         <label for="tinymceDescription">Description</label>
-                        <textarea class="form-control"  id="tinymceDescription" rows="5" name="description">{{ isset($question) ? $question->description : old('description') }}</textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror"  id="tinymceDescription" rows="5" name="description">{{ isset($question) ? $question->description : old('description') }}</textarea>
+                        @error('description')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                     <div class="form-check">

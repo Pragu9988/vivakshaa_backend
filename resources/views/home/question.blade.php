@@ -26,10 +26,8 @@
     </div>
 </header>
 
-    <div id="app">
-        <show-question></show-question>
-    </div>
-    {{-- <div class="container">
+<section class="section__question-list py-5">
+    <div class="container">
         <div class="row">
             <div class="col-12 col-lg-4 col-xl-4 stretched-card">
                 <div class="card">
@@ -132,7 +130,7 @@
                         <div class="d-flex justify-content-between mb-4">
                             <div class="info-text">
                                 <p class="text-body mb-2">Year</p>
-                                <p class="text-muted tx-12">{{$question->question_file}}</p>
+                                <p class="text-muted tx-12">{{$question->year}}</p>
                             </div>
                             <div class="info-text">
                                 <p class="text-body mb-2">Semester Type</p>
@@ -164,9 +162,14 @@
                     </div>
                 </div>
                 @endforeach
+                <div class="d-flex justify-content-end">
+                    {!! $questions->links() !!}
+                </div>
             </div>
         </div>
-    </div> --}}
+    </div>
+</section>
+
 @endsection
 
 @push('custom-scripts')

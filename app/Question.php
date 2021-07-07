@@ -22,7 +22,8 @@ class Question extends Model
         'semester_id',
         'question_file',
         'exam',
-        'is_active'
+        'is_active',
+        'user_id'
     ];
 
     public function course() {
@@ -35,5 +36,9 @@ class Question extends Model
 
     public function program() {
         return $this->belongsTo('Program::class');
+    }
+
+    public function user() {
+        return $this->belongsTo('User::class');
     }
 }
