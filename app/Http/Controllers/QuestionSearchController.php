@@ -8,6 +8,7 @@ use App\Course;
 use App\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 class QuestionSearchController extends Controller
 {
@@ -27,7 +28,7 @@ class QuestionSearchController extends Controller
     }
 
     public function downloadFile(Request $request, $file) {
-        $path = storage_path('public/' . $file);
+        $path = public_path('uploads/question/' . $file);
         if (!File::exists($path)) {
             abort(404);
         }
@@ -60,12 +61,13 @@ class QuestionSearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Question $question
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $question = Question::find($id);
+        return view('home.question-detail')->with('question', $question);
     }
 
     /**

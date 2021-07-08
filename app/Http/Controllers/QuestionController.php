@@ -12,6 +12,8 @@ use App\User;
 use App\Services\FileUploadService;
 use App\Services\PPService;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 use Auth;
 
 class QuestionController extends Controller
@@ -86,19 +88,54 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, Question $question)
     {
         $inputs = $request->input();
+        $file = $this->getImageToUpload($request);
         $inputs['user_id'] = $request->user()->id;
         $inputs['is_active'] = isset($request->is_active)?1:0;
         $inputs['thumbnail'] = $request->thumbnail
         ? (new PPService())->uploadImage($request->thumbnail, 'thumbnail', $this->model_name) 
         : null;
-        $inputs['question_file'] = $request->question_file
-        ? (new FileUploadService())->uploadFile($request->question_file, 'question_file', $this->model_name)
-        : null;
+        $inputs['question_file'] = $file ? $this->uploadCoverImage($file, $request->title, $question) : $question->question_file;
         Question::create($inputs);
         return redirect('/question')->with(['message' => 'Question created successfully!', 'alert-type' => 'success']);
+    }
+
+    private function uploadCoverImage($file, $title, $question = null)
+    {
+        $this->removeImageIfExists($question);
+        if (!is_file($file)) {
+            return $file;
+        }
+        $file_ext = $file->getClientOriginalExtension();
+        $title = str_replace(" ", "_", $title);
+        $title = strtolower($title);
+        $title = $title . date('YmdHis') . '.' . $file_ext;
+        $now = Carbon::now();
+        $file_path = '/uploads/question/';
+        $file->move('.' . $file_path, $title);
+
+        return $title;
+    }
+
+    private function removeImageIfExists($question)
+    {
+        if ($question) {
+            $file_path = base_path() . '/public' . $question->question_file;
+            if (File::exists($file_path) && $question->question_file != null) {
+                unlink($file_path);
+            }
+        }
+    }
+
+    private function getImageToUpload($request)
+    {
+        if ($request->question_file) {
+            return $request->question_file;
+        } else {
+            return null;
+        }
     }
 
     /**

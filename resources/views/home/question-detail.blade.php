@@ -1,5 +1,8 @@
 @extends('home.layout.master')
 
+@push('plugin-styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf_viewer.min.css" integrity="sha512-OrUZ956noL4EXloNRXp49BTIr4v9eIrlHn5DOviXJ6SDnRbkcFdP05gqgkzhbXZYCebbWjqstI+Ob1rrMyaDEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
 @section('content')
 <header class="bg-dark py-5">
     <div class="container px-5">
@@ -26,7 +29,79 @@
     </div>
 </header>
 
-<section class="section__question-list py-5">
+<section class="section__pdf py-5">
+    <div class="container">
+        <div class="d-flex align-items-start">
+            <h3 class="mr-2">{{$question->title}}</h3>
+            <small class="bg-primary py-1 px-3 text-white rounded-pill">{{$question->year}}</small>
+        </div>
+        <div class="row my-4">
+            <div class="col-sm-4">
+                <div class="table-responsive table-striped">
+                    <table id="courseDatatable" class="table">
+                        <tbody>
+                            <tr>
+                                <th>Year</th>
+                                <td>:</td>
+                                <td>{{$question->year}}</td>
+                            </tr>
+                            <tr>
+                                <th>Program</th>
+                                <td>:</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Semester</th>
+                                <td>:</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Course</th>
+                                <td>:</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="table-responsive table-striped">
+                    <table id="courseDatatable" class="table">
+                        <tbody>
+                            <tr>
+                                <th>Semester Type</th>
+                                <td>:</td>
+                                <td>{{$question->type}}</td>
+                            </tr>
+                            <tr>
+                                <th>Exam Type</th>
+                                <td>:</td>
+                                <td>{{$question->exam}}</td>
+                            </tr>
+                            <tr>
+                                <th>File Size</th>
+                                <td>:</td>
+                                <td>12mb</td>
+                            </tr>
+                            <tr>
+                                <th>Downloads</th>
+                                <td>:</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="height: 100vh" class="col-sm-12">
+                <iframe height="100%" width=100% src='{{ asset('uploads/question/'.$question->question_file) }}'></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- <section class="section__question-list py-5">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-4 col-xl-4 stretched-card">
@@ -149,16 +224,13 @@
                                 <p class="text-muted tx-12">5</p>
                             </div>
                         </div>
-                        <a href="{{ route('question.detail', $question->id) }}">
-                            <button type="button" class="btn btn-outline-primary btn-sm btn-icon-text mr-2 mb-2 mb-md-0">
-                                <i class="btn-icon-prepend" data-feather="eye"></i>
-                                View
-                            </button>
-                        </a>
-                        
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-icon-text mr-2 mb-2 mb-md-0">
+                            <i class="btn-icon-prepend" data-feather="eye"></i>
+                            View
+                        </button>
                         <a href="{{route('question.download', $question->question_file)}}">
                             <button type="button" class="btn btn-primary btn-sm btn-icon-text mb-2 mb-md-0">
-                                <i class="btn-icon-prepend" data-feather="download"></i>
+                                <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download
                             </button>
                         </a>
@@ -171,10 +243,11 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 @endsection
 
 @push('custom-scripts')
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js" integrity="sha512-U5C477Z8VvmbYAoV4HDq17tf4wG6HXPC6/KM9+0/wEXQQ13gmKY2Zb0Z2vu0VNUWch4GlJ+Tl/dfoLOH4i2msw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush

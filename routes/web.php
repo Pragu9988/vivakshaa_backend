@@ -28,10 +28,9 @@ Route::get('/', function () {
 Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
 
 // Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
-Route::get('/question/download/{file}', function($file) {
-    $path = public_path('app/public/'.$file);
-    return response()->download($path);
-})->name('question.download');
+Route::get('/question/download/{file}', [QuestionSearchController::class, 'downloadFile'])->name('question.download');
+
+Route::get('/question/detail/{id}', [QuestionSearchController::class, 'show'])->name('question.detail');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
