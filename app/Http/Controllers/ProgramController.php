@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Program;
 use Yajra\DataTables\DataTables;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ProgramController extends Controller
 {
@@ -51,11 +55,52 @@ class ProgramController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Program $program)
     {
         $this->authorize('create', Program::class);
-        Program::create($request->all());
+        $inputs = $request->input();
+        $file = $this->getImageToUpload($request);
+        // dd($program->cover_pic);
+        $inputs['cover_pic'] = $file ? $this->uploadCoverImage($file, $request->name,  $program) : $program->cover_pic;
+        Program::create($inputs);
         return redirect('/program')->with(['message' => 'Program created sucessfully', 'alert-type' => 'success']);
+    }
+
+    private function uploadCoverImage($file, $name, $program = null)
+    {
+        $this->removeImageIfExists($program);
+        if (!is_file($file)) {
+            return $file;
+        }
+        $file_ext = $file->getClientOriginalExtension();
+        dd($file_ext);
+        $name = str_replace(" ", "_", $name);
+        $name = strtolower($name);
+        $name = $name . date('YmdHis') . '.' . $file_ext;
+        $now = Carbon::now();
+        $file_path = '/uploads/program/';
+        $file->move('.' . $file_path, $name);
+
+        return $name;
+    }
+
+    private function removeImageIfExists($program)
+    {
+        if ($program) {
+            $file_path = base_path() . '/public' . $program->cover_pic;
+            if (File::exists($file_path) && $program->cover_pic != null) {
+                unlink($file_path);
+            }
+        }
+    }
+
+    private function getImageToUpload($request)
+    {
+        if ($request->cover_pic) {
+            return $request->cover_pic;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -90,7 +135,11 @@ class ProgramController extends Controller
      */
     public function update(Request $request, Program $program)
     {
-        $program->update($request->all());
+        $this->authorize('update', $program);
+        $inputs = $request->input();
+        $file = $this->getImageToUpload($request);
+        $inputs['cover_pic'] = $file ? $this->uploadCoverImage($file, $request->name,  $program) : $program->cover_pic;
+        $program->update($inputs);
         return redirect('/program')->with(['message' => 'Program updated sucessfully', 'alert-type' => 'success']);
     }
 
@@ -102,7 +151,7 @@ class ProgramController extends Controller
      */
     public function destroy(Program $program)
     {
-        $this->authorize('update', $program);
+        $this->authorize('delete', $program);
         $program->delete();
         return back()->with(['message' => 'Program deleted sucessfully', 'alert-type' => 'success']);
 

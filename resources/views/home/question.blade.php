@@ -33,23 +33,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="mb-4">Filters</h3>
-                        <h6 class="card-title mt-4">Faculty</h6>
-                        <div class="form-group border border-light p-2">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Management
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Science
-                                </label>
-                            </div>
-                        </div>
 
-                        <h6 class="card-title mt-4">semester</h6>
+                        <h6 class="card-title mt-4">Program</h6>
                         <div class="form-group border border-light p-2">
                             @foreach($programs as $program)
                                 <div class="form-check">
@@ -142,7 +127,7 @@
                             </div>
                             <div class="info-text">
                                 <p class="text-body mb-2">File Size</p>
-                                <p class="text-muted tx-12">12mb</p>
+                                <p class="text-muted tx-12">{{number_format($question->file_size / 1048576,2 )}}</p>
                             </div>
                             <div class="info-text">
                                 <p class="text-body mb-2">Downloads</p>

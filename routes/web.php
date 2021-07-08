@@ -17,17 +17,23 @@ use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionSearchController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\FeedbackController;
 
-Route::get('/', function () {
-    return view('home.index');
-});
+Route::get('/', [QuestionController::class, 'homeIndex'])->name('home.index');
 // Route::get('/home/question', function () {
 //     return view('home.question');
 // });
+Route::get('/home/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::resource('feedback', FeedbackController::class);
+
+
+Route::get('/home/blog', [BlogController::class, 'blogIndex'])->name('home.blog');
+
+Route::get('/home/blog/{slug}', [BlogController::class, 'show'])->name('home.blog-detail');
 
 Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
 
-// Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
 Route::get('/question/download/{file}', [QuestionSearchController::class, 'downloadFile'])->name('question.download');
 
 Route::get('/question/detail/{id}', [QuestionSearchController::class, 'show'])->name('question.detail');
@@ -59,6 +65,12 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::resource('question', QuestionController::class);
     Route::post('/question/fetch', [QuestionController::class, 'fetch'])->name('question.fetch');
+
+
+    /**
+     * Blogs
+     */
+    Route::resource('blog', BlogController::class);
 });
 
 

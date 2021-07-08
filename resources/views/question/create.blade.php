@@ -31,7 +31,7 @@
                 @csrf
                 @if(isset($question))
                     <input name="_method" value="put" hidden>
-                    <input name="user_id" value={{$user->id}} hidden>
+                    <input name="user_id" value={{$question->user_id}} hidden>
                 @endif
                     <div class="row">
                         <div class="col-md-6 grid-margin stretch-card">
@@ -81,36 +81,10 @@
                             <div class="form-group">
                                 <label for="year">Year<span>*</span></label>
                                 <select name="year" id="year" class="form-control @error('year') is-invalid @enderror">
-                                    <option selected disable>Select Exam Year</option>
-                                    <option value="2030">2030</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2011">2011</option>
-                                    <option value="2010">2010</option>
-                                    <option value="2009">2009</option>
-                                    <option value="2008">2008</option>
-                                    <option value="2007">2007</option>
-                                    <option value="2006">2006</option>
-                                    <option value="2005">2005</option>
-                                    <option value="2004">2004</option>
-                                    <option value="2003">2003</option>
-                                    <option value="2002">2002</option>
+                                    <option selected disabled hidden>Select Exam Year</option>
+                                    @foreach(config('options.question.year') as $year)
+                                    <option value="{{ $year }}" {{(isset($question) && $year== $question->year) || (old('year') == $year)?"selected":""}}>{{ $year }}</option>
+                                    @endforeach
                                 </select>
                                 @error('year')
                                 <span class="invalid-feedback" role="alert">
@@ -123,9 +97,12 @@
                             <div class="form-group">
                                 <label class="control-label" for="type">Semester Type</label>
                                 <select name="type" id="type" class="form-control @error('type') is-invalid @enderror">
-                                    <option selected disable>Select Semester Type</option>
-                                    <option value="spring">Spring</option>
-                                    <option value="fall">Fall</option>
+                                    <option selected disabled hidden>Select Semester Type</option>
+                                    @foreach(config('options.question.type') as $type)
+                                    <option value="{{ $type }}" 
+                                    {{ (isset($question) && $type == $question->type) || (old('type') == $type)?"selected":"" }}
+                                    >{{ $type }}</option>
+                                    @endforeach
                                 </select>
                                 @error('type')
                                 <span class="invalid-feedback" role="alert">
@@ -138,10 +115,10 @@
                             <div class="form-group">
                             <label class="control-label" for="exam">Examination Type</label>
                                 <select name="exam" id="exam" class="form-control @error('exam') is-invalid @enderror">
-                                    <option selected disable>Select Examination Type</option>
-                                    <option value="terminal">Terminal Examination</option>
-                                    <option value="sent_up">Send Up Examination</option>
-                                    <option value="board">Board Examination</option>
+                                    <option selected disabled hidden>Select Examination Type</option>
+                                    @foreach(config('options.question.exam') as $exam)
+                                    <option value="{{ $exam }}" {{ (isset($question) && $exam == $question->exam) || (old('exam') == $exam)?"selected":"" }}>{{ $exam }}</option>
+                                    @endforeach
                                 </select>
                                 @error('exam')
                                 <span class="invalid-feedback" role="alert">

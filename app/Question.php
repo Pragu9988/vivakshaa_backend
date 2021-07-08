@@ -23,7 +23,8 @@ class Question extends Model
         'question_file',
         'exam',
         'is_active',
-        'user_id'
+        'user_id',
+        'file_size'
     ];
 
     public function course() {

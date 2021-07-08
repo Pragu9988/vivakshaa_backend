@@ -92,6 +92,7 @@ class QuestionController extends Controller
     {
         $inputs = $request->input();
         $file = $this->getImageToUpload($request);
+        $inputs['file_size'] = $request->file('question_file')->getSize();
         $inputs['user_id'] = $request->user()->id;
         $inputs['is_active'] = isset($request->is_active)?1:0;
         $inputs['thumbnail'] = $request->thumbnail
@@ -161,10 +162,12 @@ class QuestionController extends Controller
         $programs = Program::select('id', 'name')->get();
         $semesters = Semester::select('id', 'name')->get();
         $courses = Course::select('id', 'name')->get();
+        $user = User::find($user);
         return view ('question.create', [
             'programs' => $programs,
             'semesters' => $semesters,
-            'courses' => $courses
+            'courses' => $courses,
+            'user' => $user
         ])->with('question', $question);
     }
 
@@ -183,9 +186,7 @@ class QuestionController extends Controller
         $inputs['thumbnail'] = $request->thumbnail
         ? (new PPService())->uploadImage($request->thumbnail, 'thumbnail', $this->model_name) 
         : null;
-        $inputs['question_file'] = $request->question_file
-        ? (new FileUploadService())->uploadFile($request->question_file, 'question_file', $this->model_name)
-        : null;
+        $inputs['question_file'] = $file ? $this->uploadCoverImage($file, $request->title, $question) : $question->question_file;
         $question->update($inputs);
         return redirect('/question')->with(['message' => 'Question updated successfully!', 'alert-type' => 'success']);
     }
@@ -198,7 +199,14 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        $this->authorize('delete', $question);
         $question->delete();
         return back()->with(['message' => 'Question deleted successfully!', 'alert-type' => 'success']);
+    }
+
+    public function homeIndex() {
+        
+        $questions = Question::orderBy('id','desc')->paginate(3);
+        return view('home.index', ['questions' => $questions]);
     }
 }

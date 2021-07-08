@@ -12,7 +12,7 @@ class Program extends Model
     protected $table = 'programs';
 
     protected $fillable = [
-        'name', 'abbreviation', 'faculty', 'description'
+        'name', 'abbreviation', 'faculty', 'description', 'cover_pic'
     ];
 
     public function courses() {

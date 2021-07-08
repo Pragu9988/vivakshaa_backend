@@ -16,7 +16,7 @@
         <div class="header-btn-grp">
           @can('create', App\Course::class)
             <a href="{{ route('course.create')}}">
-                <button type="button" class="btn btn-primary mb-1 mb-md-0 float-right">
+                <button type="button" class="btn btn-primary mb-1 mb-md-0 float-right pull-right">
                     Add Course
                 </button>
             </a>

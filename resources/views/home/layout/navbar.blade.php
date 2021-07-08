@@ -73,7 +73,10 @@
                 <a class="nav-link active" aria-current="page" href="{{url('/home/question')}}">Questions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
+                <a class="nav-link" href="{{ url('/home/blog') }}">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/home/feedback') }}">Feedback</a>
             </li>
         </ul>
     </div>

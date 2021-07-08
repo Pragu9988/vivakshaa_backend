@@ -35,64 +35,47 @@
               </div>
         </div>
     </section>
-    {{-- <section class="container section__featured-question py-5">
+    <section class="container section__featured-question py-5">
         <div class="row mb-4">
             <div class="d-flex justify-content-between p-3">
                 <h2>Featured <span class="text-muted">Questions</span></h2>
-                <p><a href="#">See All</a></p>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-5">
-                            <img src="..." alt="...">
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <div class="row  text-center">
+            @foreach($questions as $question)
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">{{$question->title}}</h6>
+                        <div class="d-flex justify-content-between mb-4">
+                            <div class="info-text">
+                                <p class="text-body mb-2">Year</p>
+                                <p class="text-muted tx-12">{{$question->year}}</p>
+                            </div>
+                            <div class="info-text">
+                                <p class="text-body mb-2">Semester Type</p>
+                                <p class="text-muted tx-12">{{$question->type}}</p>
+                            </div>
+                            <div class="info-text">
+                                <p class="text-body mb-2">Exam Type</p>
+                                <p class="text-muted tx-12">{{$question->exam}}</p>
                             </div>
                         </div>
+                        <a href="{{ route('question.detail', $question->id) }}">
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-icon-text mr-2 mb-2 mb-md-0">
+                                <i class="btn-icon-prepend" data-feather="eye"></i>
+                                View
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-5">
-                            <img src="./img/" alt="...">
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-5">
-                            <img src="./img/" alt="...">
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @endforeach
+            <div class="d-flex justify-content-center text-center">
+                <a href="{{ url('home/question' )}}"></a><button type="button" class="btn btn-outline-primary">View All</button>
             </div>
         </div>
-    </section> --}}
+    </section>
     <section class="section__faculty py-5">
         <div class="container">
             <h2 class="text-center mb-5">Browse by <span class="text-muted">Faculty</span></h2>

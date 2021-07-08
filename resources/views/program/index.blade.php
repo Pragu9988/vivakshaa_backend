@@ -26,7 +26,6 @@
           <table id="programDatatable" class="table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Abbreviation</th>
                 <th>Faculty</th>
@@ -54,9 +53,9 @@
     $('#programDatatable').DataTable( {
       processing : true,
       serverSide : true,
+      order      : [[0 , 'desc']],
       ajax : "{{ route('program.index') }}",
       columns : [
-            {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'abbreviation', name: 'abbreviation'},
             {data: 'faculty', name: 'faculty'},
