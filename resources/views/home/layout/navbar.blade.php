@@ -16,10 +16,10 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-                    <form action="">
+                    <form action="{{ route('home.question') }}" method="GET">
                         <div class="bg-light shadow-sm">
                             <div class="input-group">
-                                <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                                <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" name="search" value="{{ request()->query('search') }}" id="search" class="form-control border-0 bg-light">
                                 <div class="input-group-append bg-primary ml-0">
                                     <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="text-light" data-feather="search"></i></button>
                                 </div>

@@ -29,47 +29,35 @@ Route::resource('feedback', FeedbackController::class);
 
 
 Route::get('/home/blog', [BlogController::class, 'blogIndex'])->name('home.blog');
-
 Route::get('/home/blog/{slug}', [BlogController::class, 'show'])->name('home.blog-detail');
 
 Route::get('/home/question', [QuestionSearchController::class, 'index'])->name('home.question');
-
 Route::get('/question/download/{file}', [QuestionSearchController::class, 'downloadFile'])->name('question.download');
-
 Route::get('/question/detail/{id}', [QuestionSearchController::class, 'show'])->name('question.detail');
+Route::post('/question/get-questions', [QuestionSearchController::class, 'getQuestions'])->name('question.get-questions');
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
-    /**
-     * User
-     */
+    //User
     Route::resource('user', UserController::class);
-    /**
-     * Program
-     */
+
+    //Program
     Route::resource('program', ProgramController::class);
 
-    /**
-     * Courses
-     */
+    //Course
     Route::resource('course', CourseController::class);
 
-    /**
-     * Semester
-     */
+    //Semester
     Route::resource('semester', SemesterController::class);
 
-    /**
-     * Questions
-     */
+    //Question
     Route::resource('question', QuestionController::class);
     Route::post('/question/fetch', [QuestionController::class, 'fetch'])->name('question.fetch');
 
-
-    /**
-     * Blogs
-     */
+    //Blog
     Route::resource('blog', BlogController::class);
 });
 

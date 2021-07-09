@@ -42,4 +42,13 @@ class Question extends Model
     public function user() {
         return $this->belongsTo('User::class');
     }
+
+    public static function getQuesitons($year) {
+        $questions = Question::all();
+
+        if($year && $year != config('options.question.year')) {
+            $questions = $questions->where('questions.year', $year);
+        }
+        return $users->paginate(10);
+    }
 }

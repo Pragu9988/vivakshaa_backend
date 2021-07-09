@@ -76,7 +76,7 @@
             </div>
         </div>
     </section>
-    <section class="section__faculty py-5">
+    {{-- <section class="section__faculty py-5">
         <div class="container">
             <h2 class="text-center mb-5">Browse by <span class="text-muted">Faculty</span></h2>
             <div class="row">
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <section class="section__program py-5">
         <div class="container">
             <h2 class="text-center mb-5">Browse by <span class="text-muted">Program</span></h2>

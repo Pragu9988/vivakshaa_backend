@@ -200,7 +200,11 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $this->authorize('delete', $question);
-        $question->delete();
+        try {
+            $question->delete();
+        } catch (Exception $ex) {
+            return redirect()->route('question.index')->with(['message' => 'Something went wrong', 'alert-type' => 'error']);
+        }
         return back()->with(['message' => 'Question deleted successfully!', 'alert-type' => 'success']);
     }
 

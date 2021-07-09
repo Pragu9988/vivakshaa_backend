@@ -20,7 +20,16 @@ class QuestionSearchController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('id', 'desc')->paginate(10);
+        $search = request()->query('search');
+
+        if($search) {
+            $questions = Question::where('title', 'LIKE', '%' .$search. '%')
+            ->orWhere('year', 'LIKE', '%' .$search. '%')
+            ->orWhere('type', 'LIKE', '%' .$search. '%')
+            ->orWhere('exam', 'LIKE', '%' .$search. '%')->paginate(3);
+        } else {
+            $questions = Question::orderBy('id', 'desc')->paginate(10);
+        }
         $programs = Program::select('id', 'name')->get();
         $semesters = Semester::select('id', 'name')->get();
         $courses = Course::select('id', 'name')->get();
@@ -102,5 +111,15 @@ class QuestionSearchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getQuestions( Request $request) {
+        $program = $request->get('program');
+        $semester = $request->get('semester');
+        $course = $request->get('course');
+        $data = Question::select()->where('program_id', $program)
+        ->orWhere('semester_id', $semester)
+        ->orWhere('course_id', $course)->get();
+        return response()->json($data);
     }
 }

@@ -152,7 +152,11 @@ class ProgramController extends Controller
     public function destroy(Program $program)
     {
         $this->authorize('delete', $program);
-        $program->delete();
+        try {
+            $program->delete();
+        } catch (Exception $e) {
+            return back()->with(['message' => 'Something went wrong', 'alert-type' => 'error']);
+        }
         return back()->with(['message' => 'Program deleted sucessfully', 'alert-type' => 'success']);
 
     }
